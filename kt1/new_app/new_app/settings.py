@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3$@-9-ou3@786y4g9_cao*ek(j&41(b4+f68g_v^*2$ma_g#xt'
+SECRET_KEY = os.environ.get('DB_SECRET_KEY') #'django-insecure-3$@-9-ou3@786y4g9_cao*ek(j&41(b4+f68g_v^*2$ma_g#xt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -79,10 +79,11 @@ WSGI_APPLICATION = 'new_app.wsgi.application'
 DB_USER=os.environ.get('DB_USER')
 DB_PASSWORD=os.environ.get('DB_PASSWORD')
 
+
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.postgresql',
-        'NAME': 'baza_podataka',
+        'NAME': 'cloud',
         'USER' : DB_USER,
         'PASSWORD' : DB_PASSWORD,
         'HOST': 'localhost',
