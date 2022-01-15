@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'new_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.postgresql',
-        'NAME': 'baza_podataka',
+        'NAME': 'postgres',
         'USER' : 'admin',
         'PASSWORD' : 'admin',
-        'HOST': 'localhost',
+        'HOST': 'cloud-db',
         'PORT': '5432'
     }
 }

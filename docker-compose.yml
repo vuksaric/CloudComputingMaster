@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+
+  django:
+    build: .
+    restart: on-failure:10
+    ports:
+      - "8000:8000"
+    depends_on:
+      - cloud-db
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+
+  cloud-db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_NAME=postgres
+    volumes:
+      - .:/usr/src
