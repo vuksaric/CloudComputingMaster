@@ -13,6 +13,22 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
+      - HOST=cloud-db
+      - PORT=5432
+
+  django2:
+    build: .
+    restart: on-failure:10
+    ports:
+      - "8001:8001"
+    depends_on:
+      - cloud-db2
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - HOST=cloud-db2
+      - PORT=5432
 
   cloud-db:
     image: postgres
@@ -20,5 +36,18 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
       - POSTGRES_NAME=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - .:/usr/src
+
+  cloud-db2:
+    image: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_NAME=postgres
+    ports:
+      - "5433:5432"
     volumes:
       - .:/usr/src
