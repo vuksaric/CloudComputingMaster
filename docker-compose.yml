@@ -1,0 +1,64 @@
+version: "3.7"
+
+services:
+
+  django:
+    build: .
+    restart: on-failure:10
+    ports:
+      - "8000:8000"
+    depends_on:
+      - cloud-db
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - HOST=cloud-db
+      - PORT=5432
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+
+  django2:
+    build: .
+    restart: on-failure:10
+    ports:
+      - "8001:8001"
+    depends_on:
+      - cloud-db2
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - HOST=cloud-db2
+      - PORT=5432
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8001"
+
+  cloud-db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_NAME=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - .:/usr/src
+
+  cloud-db2:
+    image: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_NAME=postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - .:/usr/src
+
+  nginx:
+    build: ./nginx
+    ports:
+    - "8080:80"
+    depends_on:
+    - django
+    - django2
+    restart: on-failure:10
