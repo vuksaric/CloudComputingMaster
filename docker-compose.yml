@@ -3,7 +3,7 @@ version: "3.7"
 services:
 
   django:
-    build: .
+    image: 782017/cloud:django
     restart: on-failure:10
     ports:
       - "8000:8000"
@@ -18,7 +18,7 @@ services:
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
 
   django2:
-    build: .
+    image: 782017/cloud:django
     restart: on-failure:10
     ports:
       - "8001:8001"
